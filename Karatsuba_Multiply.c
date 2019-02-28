@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
  
 
 int figureCount(int number){
@@ -36,9 +37,9 @@ char *splitChar(char *pchar, int left_ary, int right_ary){
     return container;
 }
 
-int multiplyAlgorithm(int a, int b, int c, int d){
+int multiplyAlgorithm(int a, int b, int c, int d, int right_figure){
     int ans;
-    ans = (a + b)*(c+d) - a*c - b*d;
+    ans = a*c*pow(10, 2*right_figure) + b*d + ((a+b)*(c+d)-a*c-b*d)*pow(10, right_figure);
     return ans;
 }
 
@@ -70,7 +71,7 @@ int main(/*char number1, char number2*/){
     int num2_left = atoi(&pointer2_splited[0]);
     int num2_right = atoi(&pointer2_splited[1]);
 
-    printf(multiplyAlgorithm(num1_left, num1_right, num2_left, num2_right));
+    printf(multiplyAlgorithm(num1_left, num1_right, num2_left, num2_right, right_ary));
 }
 
  // Learning to use enum:

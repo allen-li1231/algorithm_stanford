@@ -12,29 +12,26 @@ int figureCount(int number){
     return count;
 }
 
-int *numfigure(char *number){
+void numfigure(const char *number, int *left_ary, int *right_ary){
     int num_left_figure, number_figure, inum;
     inum = atoi(number);
     number_figure =figureCount(inum);
-    num_left_figure = number_figure / 2;
-
-    int a[2] = {num_left_figure, number_figure - num_left_figure};
-    return a;
+    *left_ary = number_figure / 2;
+    *right_ary = number_figure - *left_ary;
 }
 
-char *splitChar(char *pchar, int left_ary, int right_ary){
-    char *left_container, *right_container;
-    for (int i=0; i<left_ary; i++){
+void splitChar(const char *pchar, int left_ary, int right_ary, char *left_container, char *right_container){
+    int i=0;
+    for (i=0; i < left_ary; i++){
         left_container[i] = pchar[i];
     }
+    left_container[i+1] = 0;
     int k = 0;
-    for (int j=left_ary; j<right_ary; j++){
+    for (int j=left_ary; j<left_ary + right_ary; j++){
         right_container[k] = pchar[j];
         k += 1;
     }
-
-    char container[2] = {left_container, right_container};
-    return container;
+    right_container[k] = 0;
 }
 
 int multiplyAlgorithm(int a, int b, int c, int d, int right_figure){
@@ -45,7 +42,7 @@ int multiplyAlgorithm(int a, int b, int c, int d, int right_figure){
 
 int main(/*char number1, char number2*/){
     printf("Hi there\n");
-    int count1, count2, left_ary, right_ary, *pointer_figure,t;
+    int count1, count2, left_ary, right_ary, *pointer_figure;
     // scanf really sucks.
 /*    printf("Please insert a number:\n");
     scanf("%c", &number1);
@@ -54,24 +51,16 @@ int main(/*char number1, char number2*/){
 */
     char *number1 = "1234";
     char *number2 = "5678";
-    t = atoi(number1);
-    pointer_figure = numfigure(number1);
-    left_ary = pointer_figure[0];
-    right_ary = pointer_figure[1];
+    numfigure(number1, &left_ary, &right_ary);
+    char num1_left[19] = {0}, num1_right[19] = {0}, num2_left[19] = {0}, num2_right[19] = {0};
 
-    char *pointer1_splited = splitChar(number1, left_ary, right_ary);
-    int num1_left = atoi(&pointer1_splited[0]);
-    int num1_right = atoi(&pointer1_splited[1]);
+    splitChar(number1, left_ary, right_ary, num1_left, num1_right);
+    splitChar(number2, left_ary, right_ary, num2_left, num2_right);
 
-    pointer_figure = numfigure(number2);
-    left_ary = pointer_figure[0];
-    right_ary = pointer_figure[1];
+    int left1 = atoi(num1_left), right1 = atoi(num1_right), left2 = atoi(num2_left), right2 = atoi(num2_right);
 
-    char *pointer2_splited = splitChar(number2, left_ary, right_ary);
-    int num2_left = atoi(&pointer2_splited[0]);
-    int num2_right = atoi(&pointer2_splited[1]);
-
-    printf(multiplyAlgorithm(num1_left, num1_right, num2_left, num2_right, right_ary));
+    int ans = multiplyAlgorithm(left1, right1, left2, right2, right_ary);
+    printf("answer: %d\n", ans);
 }
 
  // Learning to use enum:

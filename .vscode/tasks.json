@@ -7,7 +7,7 @@
             "label": "gcc global task",
             "type": "shell",
             "command": "gcc",
-            "args": ["-ggdb",  "-std=c99", /*"-lm", */"${fileDirname}/${fileBasename}"],
+            "args": ["-ggdb",  "-std=c99", "-lm", "${fileDirname}/${fileBasename}"],
             "group": "test",
             "presentation": {
                 // Reveal the output only if unrecognized errors occur.

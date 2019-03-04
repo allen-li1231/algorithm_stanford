@@ -1,7 +1,7 @@
 """
 Author: Allen Lee
 """
-import time
+'''
 def speedtest(f):
     def wrapper(*args, **kwargs):
         start = time.clock()
@@ -9,6 +9,7 @@ def speedtest(f):
         elapsed = time.clock() - start
         return rt, elapsed
     return wrapper
+'''
 
 
 def splitChar(c):
@@ -124,4 +125,4 @@ def multiply(num1, num2):
 if __name__ == '__main__':
     num1 = input("Please insert first number: ")
     num2 = input("Please insert second number: ")
-    print('%d', multiply(num1, num2))
+    print(multiply(num1, num2))

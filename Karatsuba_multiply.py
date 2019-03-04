@@ -1,15 +1,6 @@
 """
 Author: Allen Lee
 """
-'''
-def speedtest(f):
-    def wrapper(*args, **kwargs):
-        start = time.clock()
-        rt = f(*args, **kwargs)
-        elapsed = time.clock() - start
-        return rt, elapsed
-    return wrapper
-'''
 
 
 def splitChar(c):
@@ -18,7 +9,7 @@ def splitChar(c):
     return c[:left_figure], c[left_figure: l+1]
 
 
-def addStr(num1, num2):
+def addInStr(num1, num2):
     def addcarry(digit1, digit2, addon):
         # return carry and digit of the addition of two single digits and a formal carry.
         cry = (digit1 + digit2 + addon) // 10
@@ -50,7 +41,7 @@ def addStr(num1, num2):
             addon_tmp = c
 
 
-def divStr(num1, num2):
+def divideInStr(num1, num2):
     def divcarry(digit1, digit2, divon):
         # return carry and digit of the division of two single digits and a formal carry.
         if digit1 - digit2 >= divon:
@@ -80,45 +71,44 @@ def divStr(num1, num2):
 
 
 def multiply(num1, num2):
+    if num1 == '0' or num2 == '0':
+        return '0'
+    # determining whether the answer will be positive or negative.
     minus1 = False
     minus2 = False
     if num1[0] == '-':
         minus1 = True
-        num1.lstrip('-')
+        num1 = num1.lstrip('-')
     if num2[0] == '-':
         minus2 = True
-        num2.lstrip('-')
+        num2 = num2.lstrip('-')
     if minus1 ^ minus2:
         sign = '-'
     else:
         sign = ''
-
-    div = 0
+    # make the two numbers the same in digit.
     nlen1 = len(num1)
     nlen2 = len(num2)
     if nlen1 < nlen2:
-        div = nlen2-nlen1
-        num1 = num1 + '0'*div
+        num1 = '0'*(nlen2-nlen1) + num1
     elif nlen1 > nlen2:
-        div = nlen1-nlen2
-        num2 = num2 + '0'*div
+        num2 = '0'*(nlen1-nlen2) + num2
 
-    if len(num1) > 2:
+    if len(num1) > 9:
         left1, right1 = splitChar(num1)
         left2, right2 = splitChar(num2)
         right_lenth = len(right1)
+        # applying Karatsuba formula...
         bd = multiply(right1, right2)
         ac = multiply(left1, left2)
-        a_add_b_mul_c_add_d = multiply(addStr(left1, right1), addStr(left2, right2))
-        ad_add_bc = divStr(divStr(a_add_b_mul_c_add_d, ac), bd)
-        answer = addStr(ac + '0'*2*right_lenth, bd)
-        answer = addStr(answer, ad_add_bc + '0'*right_lenth)
+        a_add_b_mul_c_add_d = multiply(addInStr(left1, right1), addInStr(left2, right2))
+        ad_add_bc = divideInStr(divideInStr(a_add_b_mul_c_add_d, ac), bd)
+        answer = addInStr(ac + '0'*2*right_lenth, bd)
+        answer = addInStr(answer, ad_add_bc + '0'*right_lenth)
 
-        if div != 0:
-            return sign + answer[:-div]
-        else:
-            return sign + answer
+        return sign + answer.lstrip('0')
     else:
+        # numbers length less than 9 don't have to iterate.
         return sign + str(int(num1) * int(num2))
 
 

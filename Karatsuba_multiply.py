@@ -41,32 +41,32 @@ def addInStr(num1, num2):
             addon_tmp = c
 
 
-def divideInStr(num1, num2):
-    def divcarry(digit1, digit2, divon):
-        # return carry and digit of the division of two single digits and a formal carry.
-        if digit1 - digit2 >= divon:
+def minusInStr(num1, num2):
+    def minuscarry(digit1, digit2, mison):
+        # return carry and digit of the subtraction of two single digits and a formal carry.
+        if digit1 - digit2 >= mison:
             cry = 0
-            dig = digit1 - digit2 - divon
+            dig = digit1 - digit2 - mison
             return cry, dig
         else:
             cry = 1
-            dig = 10 - digit2 + digit1 - divon
+            dig = 10 - digit2 + digit1 - mison
             return cry, dig
 
     v = ''
-    divon_tmp = 0
+    mison_tmp = 0
     j = len(num1)-1
     k = len(num2)-1
     for i in range(j, -1, -1):
         if k >= 0:
-            c, d = divcarry(int(num1[i]), int(num2[k]), divon_tmp)
+            c, d = minuscarry(int(num1[i]), int(num2[k]), mison_tmp)
             v = str(d) + v
-            divon_tmp = c
+            mison_tmp = c
             k -= 1
         elif k < 0:
-            c, d = divcarry(int(num1[i]), 0, divon_tmp)
+            c, d = minuscarry(int(num1[i]), 0, mison_tmp)
             v = str(d) + v
-            divon_tmp = c
+            mison_tmp = c
     return v.lstrip('0')
 
 
@@ -86,7 +86,7 @@ def multiply(num1, num2):
         sign = '-'
     else:
         sign = ''
-    # make the two numbers the same in digit.
+    # make the two numbers the same in digits.
     nlen1 = len(num1)
     nlen2 = len(num2)
     if nlen1 < nlen2:
@@ -102,7 +102,7 @@ def multiply(num1, num2):
         bd = multiply(right1, right2)
         ac = multiply(left1, left2)
         a_add_b_mul_c_add_d = multiply(addInStr(left1, right1), addInStr(left2, right2))
-        ad_add_bc = divideInStr(divideInStr(a_add_b_mul_c_add_d, ac), bd)
+        ad_add_bc = minusInStr(minusInStr(a_add_b_mul_c_add_d, ac), bd)
         answer = addInStr(ac + '0'*2*right_lenth, bd)
         answer = addInStr(answer, ad_add_bc + '0'*right_lenth)
 

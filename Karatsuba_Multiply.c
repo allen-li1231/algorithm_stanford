@@ -182,25 +182,9 @@ void minusChar(char *ans, char *num1, char *num2){
 }
 
 
-void multiplyKaratsuba(char *ans, char *number1, char *number2){
+void multiplyKaratsuba(char *ans, char *num1, char *num2){
     unsigned long left_ary, right_ary, *pointer_figure;
-    char *level_ans, *num1, *num2;
-    unsigned long len1 = strlen(number1);
-    unsigned long len2 = strlen(number2);
-    
-    if (len1 >= len2){
-        char *aligned_number = malloc(len1+1);
-        leftAlignCharWithZero(number2, len1 - len2, aligned_number);
-        num1 = number1;
-        num2 = aligned_number;
-    }
-    else
-    {
-        char *aligned_number = malloc(len2+1);
-        leftAlignCharWithZero(number1, len2 - len1, aligned_number);
-        num2 = number2;
-        num1 = aligned_number;
-    }
+    char *level_ans;
 
     unsigned long L = strlen(num1);
     if (L > 9){           // 9 is maximum length of a unsigned long number to multiply itself.
@@ -217,9 +201,9 @@ void multiplyKaratsuba(char *ans, char *number1, char *number2){
         char *minus_bd = malloc(sizeof(char)*(2*L + 1));
         char *answer = malloc(sizeof(char)*(2*L + 1));
         char *ac_with_zero = malloc(sizeof(char)*(2*L + 1));
-        char *minus_bd_with_zero = malloc(sizeof(char)*(L + 1));
+        char *minus_bd_with_zero = malloc(sizeof(char)*(2*L + 1));
         memset(minus_bd_with_zero, 0, sizeof(char)*(2*L + 1));
-        memset(ac_with_zero, 0, sizeof(char)*(L + 1));
+        memset(ac_with_zero, 0, sizeof(char)*(2*L + 1));
         memset(answer, 0, sizeof(char)*(2*L + 1));
         memset(minus_bd, 0, sizeof(char)*(2*L + 1));
         memset(minus_ac, 0, sizeof(char)*(2*L + 1));
@@ -254,7 +238,7 @@ void multiplyKaratsuba(char *ans, char *number1, char *number2){
         addChar(answer, ac_with_zero, bd);
         addChar(ans, answer, minus_bd_with_zero);
 
-/*        free(a_add_b_mul_c_add_d);
+        free(a_add_b_mul_c_add_d);
         free(a_add_b);
         free(c_add_d);
         free(ac);
@@ -267,41 +251,49 @@ void multiplyKaratsuba(char *ans, char *number1, char *number2){
         free(num1_left);
         free(num1_right);
         free(num2_left);
-        free(num2_right);*/
+        free(num2_right);
     }
     else {
-        sprintf(ans, "%lu", atol(number1) * atol(number2));
+        sprintf(ans, "%lu", atol(num1) * atol(num2));
         ans[strlen(ans)] = '\0';
     }
 }
 
-int main(/*int argc, char *argv[]*/){
+int main(int argc, char *argv[]){
     printf("Hi, there.\n");
     
-    char number1[] = "3141592653589793238462643383279502884197169399375105820974944592";
-    char number2[] = "2718281828459045235360287471352662497757247093699959574966967627";
+    char *number1 = argv[1];
+    //"3141592653589793238462643383279502884197169399375105820974944592";
+    char *number2 = argv[2];
+    //"2718281828459045235360287471352662497757247093699959574966967627";
 
-    char *ans = malloc(sizeof(char)*(strlen(number1) + strlen(number2)+1));
-    memset(ans, 0, strlen(number1) + strlen(number2)+1);
+    unsigned long len1 = strlen(number1);
+    unsigned long len2 = strlen(number2);
+    char *num1, *num2;
+    
+    if (len1 >= len2){
+        char *aligned_number = malloc(len1 + 1);
+        memset(aligned_number, 0, len1 + 1);
+        leftAlignCharWithZero(number2, len1 - len2, aligned_number);
+        num1 = number1;
+        num2 = aligned_number;
+    }
+    else
+    {
+        char *aligned_number = malloc(len2 + 1);
+        memset(aligned_number, 0, len2 + 1);
+        leftAlignCharWithZero(number1, len2 - len1, aligned_number);
+        num2 = number2;
+        num1 = aligned_number;
+    }
 
-    minusChar(ans, number1, number2);
-    addChar(ans, number1, number2);
-    multiplyKaratsuba(ans, number1, number2);
+    char *ans = malloc(sizeof(char)*(2*strlen(num1) + 1));
+    memset(ans, 0, 2*strlen(num1) + 1);
+
+    minusChar(ans, num1, num2);
+    addChar(ans, num1, num2);
+    multiplyKaratsuba(ans, num1, num2);
     printf("Multiply answer: \n%s\n", ans);
 
     free(ans);
 }
-
- // Learning to use enum:
- /*
-enum week{
-    mon=1, tue, wed, thu, fri, sat, sun
-} day;
-
-int main(){
-    for (day=mon; day<=sun; day++){
-        printf("enum element：%d \n", day);
-    }
-    return;
-}
-*/

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
  
 
 void numFigure(const char *number, unsigned long *left_ary, unsigned long *right_ary){

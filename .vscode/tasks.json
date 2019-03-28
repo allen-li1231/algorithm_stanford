@@ -7,7 +7,8 @@
             "label": "C compile",
             "type": "shell",
             "command": "gcc",
-            "args": ["-lm", "-ggdb", "-std=c99", "${fileDirname}/${fileBasename}"],
+            "args": ["-ggdb", "-std=c99", "${fileDirname}/${fileBasename}"],
+            "options": {"cwd": "${fileDirname}"},
             "group": "test",
             "presentation": {
                 // Reveal the output only if unrecognized errors occur.

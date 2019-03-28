@@ -11,7 +11,7 @@ def splitChar(c):
 
 def addInStr(num1, num2):
     def addcarry(digit1, digit2, addon):
-        # return carry and digit of the addition of two single digits and a formal carry.
+        # return carry and digit of the addition of two single digits and  formal carry.
         cry = (digit1 + digit2 + addon) // 10
         dig = (digit1 + digit2 + addon) % 10
         return cry, dig

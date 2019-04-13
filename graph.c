@@ -2,47 +2,22 @@
 #include "graph.h"
 
 
-typedef struct _VERTEX{
-    unsigned int label;
-    unsigned int dist;
-    unsigned short explored;
-    pedge first;
-} vertex;
-
-
-// out_degree ====> in_degree
-typedef struct _EDGE{
-    pvertex out_degree;
-    pvertex in_degree;
-    //define previous and next as sets of edges under out_degree vertex 
-    pedge previous;
-    pedge next;
-} edge;
-
-
-typedef struct _GRAPH{
-    unsigned int len;
-    unsigned int cursor;
-    pvertex vertices[GRAPH_MAX_MEMBER];
-    pvertex source_vertex;
-} graph;
-
-
-pvertex newVertex(pgraph g, int data){
+pvertex newVertex(pgraph g){
     pvertex buffer = malloc(sizeof(vertex));
     g->vertices[g->len] = buffer;
+    buffer->belong = g;
     buffer->label = ++g->len;
-    buffer->dist = data;
     buffer->explored = 0;
     buffer->first = NULL;
     return buffer;
 }
 
 
-pedge newEdge(pvertex out_degree, pvertex in_degree){
+pedge newEdge(pvertex out_degree, pvertex in_degree, unsigned distance){
     pedge buffer = malloc(sizeof(edge));
     buffer->in_degree = in_degree;
     buffer->out_degree = out_degree;
+    buffer->dist = distance;
     buffer->previous = getLastDegree(out_degree->first);
     buffer->next = NULL;
 
@@ -75,6 +50,7 @@ void freeVertex(pvertex v){
 
 
 void freeEdge(pedge e){
+    e->dist = 0;
     if (e->next != NULL && e->previous != NULL){
         e->next->previous = e->previous;
         e->previous->next = e->next;
@@ -85,6 +61,7 @@ void freeEdge(pedge e){
     }
     else if (e->next != NULL){
         e->out_degree->first = e->next;
+        e->next->previous = NULL;
     }
     else e->out_degree->first = NULL;
     free(e);
@@ -92,9 +69,11 @@ void freeEdge(pedge e){
 
 
 void freeGraph(pgraph g){
-    for (int i=0; i<=g->len; i++){
+    for (int i=0; i<g->len; i++){
         freeVertex(g->vertices[i]);
     }
+    g->len = 0;
+    g->source_vertex = NULL;
     free(g);
 }
 
@@ -110,16 +89,27 @@ pedge getLastDegree(pedge e){
 }
 
 
+void setSource(pvertex v){
+    pgraph g = v->belong;
+    g->source_vertex = v;
+    for (int i=0; i<g->len; i++){
+        g->vertices[i]->data = INF;
+    }
+    v->data = 0;
+}
+
+/*
 int main(){
     pgraph g = newGraph();
-    pvertex v1 = newVertex(g, 10);
-    pvertex v2 = newVertex(g, 12);
-    pvertex v3 = newVertex(g, 3);
-    pedge e1 = newEdge(v1, v2);
-    pedge e2 = newEdge(v1, v3);
+    pvertex v1 = newVertex(g);
+    pvertex v2 = newVertex(g);
+    pvertex v3 = newVertex(g);
+    pedge e1 = newEdge(v1, v2, 3);
+    pedge e2 = newEdge(v1, v3, 2);
     printf("g->len: %d, %d, %p, %p, %p\n", g->len, v2->label, v1->first, e1->next->previous, e1);
     for (int i=0; i<=g->len;i++){
         printf("%p\n", g->vertices[i]);
     }
+    freeGraph(g);
     return 0;
-}
+}*/

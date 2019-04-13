@@ -4,10 +4,46 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "gcc.o",
+            "type": "shell",
+            "command": "gcc",
+            "args": ["-c","${fileBasename}", "-std=c99", "-L."],
+            "options": {"cwd": "${fileDirname}"},
+            "group": "test",
+            "presentation": {
+                // Reveal the output only if unrecognized errors occur.
+                "reveal": "silent"
+            }
+        },
+        {
+            "label": "arlink",
+            "type": "shell",
+            "command": "ar",
+            "args": ["crsv", "lib${fileBasenameNoExtension}.a", "${fileBasenameNoExtension}.o"],
+            "options": {"cwd": "${fileDirname}"},
+            "group": "test",
+            "presentation": {
+                // Reveal the output only if unrecognized errors occur.
+                "reveal": "silent"
+            }
+        },
+        {
+            "label": "ldconfig",
+            "type": "shell",
+            "command": "sudo ldconfig ${fileDirname} | rm -f ${fileBasenameNoExtension}.o",
+            "args": [],
+            "options": {"cwd": "${fileDirname}"},
+            "group": "test",
+            "presentation": {
+                // Reveal the output only if unrecognized errors occur.
+                "reveal": "silent"
+            }
+        },
+        {
             "label": "C compile",
             "type": "shell",
             "command": "gcc",
-            "args": ["-ggdb", "-std=c99", "${fileDirname}/${fileBasename}"],
+            "args": ["-ggdb", "-std=c99", "-L.", "${fileBasename}", "graph.c"],
             "options": {"cwd": "${fileDirname}"},
             "group": "test",
             "presentation": {
@@ -26,6 +62,10 @@
                     "severity": 4,
                     "message": 5},
                 }
+        },
+        {
+            "label": "make",
+            "dependsOn": ["gcc.o", "arlink", "ldconfig"]
         }
     ]
 }

@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {   
-            "preLaunchTask": "C compile",
+            "preLaunchTask": "C compile",//"make",//
             "name": "Debug",
             "type": "cppdbg",
             "request": "launch",

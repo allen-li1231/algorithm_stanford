@@ -5,12 +5,12 @@
 pvertex newVertex(pgraph g, unsigned int label){
     if (g->vertices[label-1] == NULL){
         pvertex buffer = malloc(sizeof(vertex));
+        buffer->label = label;
+        buffer->belong = g;
+        buffer->first = NULL;
+        buffer->prev = NULL;
         g->vertices[label-1] = buffer;
         ++g->len;
-        buffer->belong = g;
-        buffer->label = label;
-        buffer->explored = 0;
-        buffer->first = NULL;
         return buffer;
     }
     else return g->vertices[label-1];
@@ -45,6 +45,7 @@ pgraph newGraph(){
     for (int i=0; i<GRAPH_MAX_MEMBER; i++){
         buffer->vertices[i] = NULL;
     }
+    buffer->source_vertex = NULL;
 }
 
 
@@ -81,6 +82,7 @@ void freeGraph(pgraph g){
         freeVertex(g->vertices[i]);
     }
     g->len = 0;
+    g->cursor = 0;
     g->source_vertex = NULL;
     free(g);
 }
@@ -102,9 +104,9 @@ void setSource(pvertex v){
     g->source_vertex = v;
     for (int i=0; i<g->len; i++){
         g->vertices[i]->data = INF;
+        g->vertices[i]->prev = NULL;
     }
     v->data = 0;
-    v->explored = 1;
 }
 
 /*

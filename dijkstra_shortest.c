@@ -40,33 +40,36 @@ pgraph readFromAssignment(){
 }
 
 
-void dijkstra_shortest(pvertex v){
+void _shortest_core(pvertex v){
     pedge e = v->first;
     if (e != NULL){
         while (e->next != NULL){
             if (e->in_degree->data > v->data + e->dist){
-            ///if (e->in_degree->explored == 0){
                 e->in_degree->data = v->data + e->dist;
-                e->in_degree->explored ++;
-                dijkstra_shortest(e->in_degree);
+                e->in_degree->prev = e->out_degree;
+                _shortest_core(e->in_degree);
             }
             e = e->next;
         }
         if (e->in_degree->data > v->data + e->dist){
-        ///if (e->in_degree->explored == 0){
             e->in_degree->data = v->data + e->dist;
-            e->in_degree->explored ++;
-            dijkstra_shortest(e->in_degree);
+            e->in_degree->prev = e->out_degree;
+            _shortest_core(e->in_degree);
         }
     }
     else return;
 }
 
 
+void dijkstra_shortest(pvertex source_vertex){
+    setSource(source_vertex);
+    _shortest_core(source_vertex);
+}
+
+
 int main(){
     pgraph g0 = readFromAssignment();
     pvertex source_v = g0->vertices[0];
-    setSource(source_v);
     dijkstra_shortest(source_v);
     printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n", 
     g0->vertices[6]->data, g0->vertices[36]->data, 
@@ -74,5 +77,6 @@ int main(){
     g0->vertices[98]->data, g0->vertices[114]->data, 
     g0->vertices[132]->data, g0->vertices[164]->data, 
     g0->vertices[187]->data, g0->vertices[196]->data);
+    freeGraph(g0);
     return 0;
 }

@@ -109,7 +109,7 @@ void setSource(pvertex v){
     v->data = 0;
 }
 
-/*
+/*How to use:
 int main(){
     pgraph g = newGraph();
     pvertex v1 = newVertex(g);

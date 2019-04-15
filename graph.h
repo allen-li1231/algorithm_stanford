@@ -33,9 +33,9 @@ typedef struct _GRAPH{
     pvertex source_vertex;
 } graph;
 
-pvertex newVertex(pgraph g);
+pvertex newVertex(pgraph g, unsigned int label);
 
-pedge newEdge(pvertex out_degree, pvertex in_degree, unsigned distance);
+pedge newEdge(pvertex out_degree, pvertex in_degree, unsigned int distance);
 
 pgraph newGraph();
 

@@ -2,18 +2,22 @@
 #include "graph.h"
 
 
-pvertex newVertex(pgraph g){
-    pvertex buffer = malloc(sizeof(vertex));
-    g->vertices[g->len] = buffer;
-    buffer->belong = g;
-    buffer->label = ++g->len;
-    buffer->explored = 0;
-    buffer->first = NULL;
-    return buffer;
+pvertex newVertex(pgraph g, unsigned int label){
+    if (g->vertices[label-1] == NULL){
+        pvertex buffer = malloc(sizeof(vertex));
+        g->vertices[label-1] = buffer;
+        ++g->len;
+        buffer->belong = g;
+        buffer->label = label;
+        buffer->explored = 0;
+        buffer->first = NULL;
+        return buffer;
+    }
+    else return g->vertices[label-1];
 }
 
 
-pedge newEdge(pvertex out_degree, pvertex in_degree, unsigned distance){
+pedge newEdge(pvertex out_degree, pvertex in_degree, unsigned int distance){
     pedge buffer = malloc(sizeof(edge));
     buffer->in_degree = in_degree;
     buffer->out_degree = out_degree;
@@ -38,6 +42,9 @@ pgraph newGraph(){
     pgraph buffer = malloc(sizeof(graph));
     buffer->len = 0;
     buffer->cursor = 0;
+    for (int i=0; i<GRAPH_MAX_MEMBER; i++){
+        buffer->vertices[i] = NULL;
+    }
 }
 
 
@@ -45,6 +52,7 @@ void freeVertex(pvertex v){
     while (v->first != NULL){
         freeEdge(v->first);
     }
+    v->belong->len--;
     free(v);
 }
 
@@ -96,6 +104,7 @@ void setSource(pvertex v){
         g->vertices[i]->data = INF;
     }
     v->data = 0;
+    v->explored = 1;
 }
 
 /*

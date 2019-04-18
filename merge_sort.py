@@ -1,3 +1,8 @@
+"""
+@Author: Allen Lee      2019.3
+"""
+
+
 def readFile():
     f = open(r"C:\Users\super\Desktop\IntegerArray.txt", "r")
     container = f.read().splitlines()

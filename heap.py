@@ -1,5 +1,10 @@
+"""
+@Author: Allen Lee      2019/4/18
+"""
+
+
 class heap:
-    def __init__(self, data=None, rule='+'):
+    def __init__(self, data: list, rule='+'):
         if rule not in ['+', '-']:
             raise ValueError("Wrong heap rule, use '+' denotes increment heap and '-' denotes decrement heap.")
 
@@ -20,13 +25,6 @@ class heap:
             h += 1
         return h
 
-    def _readFile(self, file_path: str):
-        with open(file_path, 'r') as f:
-            temp = f.readlines()
-
-        container = [int(num.strip('\n')) for num in temp]
-        return container
-
     def _compareRule(self, a, b):
         if self.rule == '+':
             return a < b
@@ -43,6 +41,34 @@ class heap:
             parent_idx = int((parent_idx - 1) / 2)
         # print(self.values)
 
+    def _bubbleDown(self, index):
+        right_child_idx = (index + 1) * 2
+        left_child_idx = right_child_idx - 1
+        number = self.values[index]
+
+        while right_child_idx < self.len and (  # determine whether new root violate heap rule
+                self._compareRule(self.values[left_child_idx], number) or
+                self._compareRule(self.values[right_child_idx], number)
+        ):
+            # determine which child to swap
+            if self._compareRule(self.values[left_child_idx], self.values[right_child_idx]):
+                self.values[index] = self.values[left_child_idx]
+                self.values[left_child_idx] = number
+                index = left_child_idx
+                right_child_idx = (index + 1) * 2
+                left_child_idx = right_child_idx - 1
+
+            else:
+                self.values[index] = self.values[right_child_idx]
+                self.values[right_child_idx] = number
+                index = right_child_idx
+                left_child_idx = index * 2 + 1
+                right_child_idx = left_child_idx + 1
+
+        if left_child_idx == self.len - 1 and self._compareRule(self.values[left_child_idx], number):
+            self.values[index] = self.values[left_child_idx]
+            self.values[left_child_idx] = number
+
     def _rootRearrange(self):
         if self.len == 2:
             if self._compareRule(self.values[1], self.values[0]):
@@ -53,33 +79,7 @@ class heap:
         elif self.len < 2:
             return
 
-        idx = 0
-        left_child_idx = 1
-        right_child_idx = 2
-        number = self.values[0]
-
-        while right_child_idx < self.len and (  # determine whether new root violate heap rule
-                self._compareRule(self.values[left_child_idx], number) or
-                self._compareRule(self.values[right_child_idx], number)
-        ):
-            # determine which child to swap
-            if self._compareRule(self.values[left_child_idx], self.values[right_child_idx]):
-                self.values[idx] = self.values[left_child_idx]
-                self.values[left_child_idx] = number
-                idx = left_child_idx
-                right_child_idx = (idx + 1) * 2
-                left_child_idx = right_child_idx - 1
-
-            else:
-                self.values[idx] = self.values[right_child_idx]
-                self.values[right_child_idx] = number
-                idx = right_child_idx
-                left_child_idx = idx * 2 + 1
-                right_child_idx = left_child_idx + 1
-
-        if left_child_idx == self.len - 1 and self._compareRule(self.values[left_child_idx], number):
-            self.values[idx] = self.values[left_child_idx]
-            self.values[left_child_idx] = number
+        self._bubbleDown(0)
 
     def setHeap(self, iterable):
         self.values = []
@@ -90,20 +90,22 @@ class heap:
         self.values.append(number)
         self._bubbleUp(self.len - 1)
 
-    def extremeExtract(self, show_extract=True):
+    def extremeExtract(self, show_extract=False):
         if self.len == 0:
             raise Exception("Nothing to extract.")
+        pop_value = self.values[0]
         if show_extract:
             if self.rule == '+':
-                print("extract min: %d" % self.values[0])
+                print("extract min: %d" % pop_value)
             else:
-                print("extract max: %d" % self.values[0])
+                print("extract max: %d" % pop_value)
 
         self.values[0] = self.values[-1]
         self.values.pop()
         self._rootRearrange()
+        return pop_value
 
-    def delete(self, index):
+    def delete(self, index: int):
         print("delete number: %d" % self.values[index])
         if self.rule == '+':
             self.values[index] = float("-inf")
@@ -113,8 +115,63 @@ class heap:
         self._bubbleUp(index)
         self.extremeExtract(show_extract=False)
 
-    def initHomework(self, file_path: str):
-        self.setHeap(self._readFile(file_path))
+
+def readFile(file_path: str):
+    with open(file_path, 'r') as f:
+        temp = f.readlines()
+
+    container = [int(num.strip('\n')) for num in temp]
+    return container
 
 
-inc = heap([5, 3, 2, 6, 7, 6, 4], '-')
+def _mediumRebalanced(num, max_h: heap, min_h):
+    vmax = max_h.values[0]
+    if num <= vmax:
+        max_h.insert(num)
+    else:
+        min_h.insert(num)
+
+    l1 = max_h.len - min_h.len
+    if l1 > 1:
+        vmax = max_h.extremeExtract()
+        min_h.insert(vmax)
+    elif l1 < -1:
+        vmin = min_h.extremeExtract()
+        max_h.insert(vmin)
+    elif l1 == -1:
+        return min_h.values[0]
+
+    return max_h.values[0]
+
+
+def mediumExtractor(data: list):
+    if len(data) == 0:
+        raise Exception("Nothing to extract.")
+    elif len(data) == 1:
+        return [data[0]]
+
+    container = [data[0]]
+    if data[0] >= data[1]:
+        container.append(data[1])
+        min_h = heap([data[0]], rule='+')
+        max_h = heap([data[1]], rule='-')
+    else:
+        container.append(data[0])
+        min_h = heap([data[1]], rule='+')
+        max_h = heap([data[0]], rule='-')
+
+    for i in range(2, len(data)):
+        v = _mediumRebalanced(data[i], max_h, min_h)
+        container.append(v)
+
+    return container
+
+
+def main():
+    data = readFile(r"C:\Users\super\Desktop\Median.txt")
+    ans = mediumExtractor(data)
+    print("Homework answer: %d" % (sum(ans) % 10000))
+
+
+if __name__ == "__main__":
+    main()

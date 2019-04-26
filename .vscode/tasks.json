@@ -43,7 +43,7 @@
             "label": "C compile",
             "type": "shell",
             "command": "gcc",
-            "args": ["-ggdb", "-std=c99", "-L.", "${fileBasename}", "graph.c"],
+            "args": ["-ggdb", "-std=c99", "-L.", "${fileBasename}", "hash.c"],
             "options": {"cwd": "${fileDirname}"},
             "group": "test",
             "presentation": {

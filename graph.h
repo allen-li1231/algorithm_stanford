@@ -9,7 +9,7 @@ typedef struct _EDGE edge, *pedge;
 typedef struct _GRAPH graph, *pgraph;
 
 typedef struct _VERTEX{
-    unsigned int label;     //indicate the position of vertex in the graph array.
+    unsigned int label;     //indicate the position of vertex  in the graph array.
     unsigned long data;     //store necessary data for different algorithms, for Dijkstra's shortest path, it's the shortest path.
     pgraph belong;      //indicate the graph that vertex belongs.
     pedge first;        //point to the first edge of which this vertex act as out vertex.

@@ -1,3 +1,6 @@
+"""
+@Author: Allen Lee      2019/3
+"""
 import random
 
 import numpy as np

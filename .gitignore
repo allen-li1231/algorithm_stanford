@@ -3,3 +3,7 @@ a.out
 _windows
 codestyles
 data
+.idea/
+t.py
+test.py
+test.c

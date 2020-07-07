@@ -124,7 +124,7 @@ def readFile(file_path: str):
     return container
 
 
-def _mediumRebalanced(num, max_h: heap, min_h):
+def _mediumRebalanced(num, max_h: heap, min_h: heap):
     vmax = max_h.values[0]
     if num <= vmax:
         max_h.insert(num)
@@ -148,7 +148,7 @@ def mediumExtractor(data: list):
     if len(data) == 0:
         raise Exception("Nothing to extract.")
     elif len(data) == 1:
-        return [data[0]]
+        return data
 
     container = [data[0]]
     if data[0] >= data[1]:

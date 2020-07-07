@@ -1,5 +1,8 @@
 a.out
-.vscode/ipch
+.vscode
 _windows
 codestyles
-data
+data/
+.idea/
+*.class
+t.py

@@ -3,6 +3,6 @@ a.out
 _windows
 codestyles
 data
-.idea/
+.idea
 t.py
 *.class

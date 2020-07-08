@@ -12,3 +12,5 @@ test.py
 test.c
 */.gitignore
 */.idea
+Debug
+x64

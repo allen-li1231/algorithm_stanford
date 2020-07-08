@@ -7,7 +7,6 @@ data
 t.py
 *.class
 .vs
-t.py
 test.py
 test.c
 */.gitignore

@@ -2,7 +2,4 @@ a.out
 .vscode
 _windows
 codestyles
-data/
-.idea/
-*.class
-t.py
+data

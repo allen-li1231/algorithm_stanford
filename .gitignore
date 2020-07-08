@@ -1,9 +1,14 @@
 a.out
-.vscode/ipch
+.vscode
 _windows
 codestyles
 data
-.idea/
+.idea
+t.py
+*.class
+.vs
 t.py
 test.py
 test.c
+*/.gitignore
+*/.idea

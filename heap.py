@@ -168,7 +168,7 @@ def mediumExtractor(data: list):
 
 
 def main():
-    data = readFile(r"C:\Users\super\Desktop\Median.txt")
+    data = readFile(r"./data/Median.txt")
     ans = mediumExtractor(data)
     print("Homework answer: %d" % (sum(ans) % 10000))
 

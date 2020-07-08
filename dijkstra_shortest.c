@@ -35,7 +35,7 @@ pgraph readFromAssignment(){
             if (ptok == NULL || *ptok == '\n') break;
             vin = newVertex(g, atoi(ptok));
             ptok = strtok(NULL, "\n	");
-            newEdge(vout, vin, atoi(ptok));
+            newEdge(vout, vin, atoi(ptok), 0);
         }
     }
     return g;
@@ -43,7 +43,7 @@ pgraph readFromAssignment(){
 
 
 void _shortest_core(pvertex v){
-    pedge e = v->first;
+    pedge e = v->first[0];
     if (e != NULL){
         while (e->next != NULL){
             if (e->in_degree->data > v->data + e->dist){

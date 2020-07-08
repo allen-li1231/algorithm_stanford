@@ -1,0 +1,12 @@
+﻿  hash.c
+e:\learn_from_the_first_step\algorithm_stanford\hash.c(103): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'void *'
+e:\learn_from_the_first_step\algorithm_stanford\hash.c(103): warning C4313: 'printf': '%d' in format string conflicts with argument 1 of type 'void *'
+e:\learn_from_the_first_step\algorithm_stanford\hash.c(188): warning C4047: 'function': 'int' differs in levels of indirection from 'void *'
+e:\learn_from_the_first_step\algorithm_stanford\hash.c(188): warning C4024: 'function through pointer': different types for formal and actual parameter 2
+e:\learn_from_the_first_step\algorithm_stanford\hash.c(199): warning C4047: 'function': 'int' differs in levels of indirection from 'void *'
+e:\learn_from_the_first_step\algorithm_stanford\hash.c(199): warning C4024: 'function through pointer': different types for formal and actual parameter 2
+e:\learn_from_the_first_step\algorithm_stanford\hash.c(207): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'void *'
+e:\learn_from_the_first_step\algorithm_stanford\hash.c(207): warning C4313: 'printf': '%d' in format string conflicts with argument 1 of type 'void *'
+e:\learn_from_the_first_step\algorithm_stanford\hash.c(214): warning C4047: 'function': 'int' differs in levels of indirection from 'void *'
+e:\learn_from_the_first_step\algorithm_stanford\hash.c(214): warning C4024: 'function through pointer': different types for formal and actual parameter 2
+  algorithm_stanford.vcxproj -> E:\LEARN_FROM_THE_FIRST_STEP\algorithm_stanford\x64\Debug\kruskal's_k_clustering.exe

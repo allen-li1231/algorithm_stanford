@@ -20,7 +20,7 @@ void readFile(){
 int main(){
     readFile();
     int ans = 0;
-   hash_table *H = newHash(NULL, NULL, 317);
+   hash_table *H = newHash(317);
    for (int i=0; i<1000000; i++){
        addHash(H, container[i]);
    }
